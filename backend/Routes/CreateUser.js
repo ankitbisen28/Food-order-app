@@ -1,7 +1,11 @@
 const express = require("express");
-const User = require("../Models/User.js");
 const router = express.Router();
+const User = require("../Models/User.js");
 const { body, validationResult } = require("express-validator");
+const bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
+
+const JWT_SECRET = "helloworld";
 
 router.post(
   "/createuser",
@@ -13,15 +17,26 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
+    const salt = await bcrypt.genSalt(10);
+    const secPass = await bcrypt.hash(req.body.password, salt);
+
     try {
-      User.create({
+      const user = User.create({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password,
+        password: secPass,
         location: req.body.location,
       });
 
-      res.json({ success: true });
+      const data = {
+        user: {
+          id: user.id
+        }
+      }
+      const authtoken = jwt.sign(data, JWT_SECRET);
+
+      res.json({ success: true, authtoken });
     } catch (error) {
       console.log(error);
       res.json({ success: true });
@@ -49,13 +64,22 @@ router.post(
           .json({ errors: "Try loggin with correct credentials" });
       }
 
-      if (req.body.password !== user.password) {
+      const passwordCompare = await bcrypt.compare(req.body.password, user.password);
+
+      if (!passwordCompare) {
         return res
           .status(400)
           .json({ errors: "Try loggin with correct credentials" });
       }
 
-      res.json({ success: true });
+      const data = {
+        user: {
+          id: user.id
+        }
+      }
+      const authtoken = jwt.sign(data, JWT_SECRET);
+
+      res.json({ success: true, authtoken });
     } catch (error) {
       console.log(error);
       res.json({ success: true });

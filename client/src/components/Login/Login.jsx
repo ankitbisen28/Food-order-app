@@ -30,6 +30,8 @@ export const Login = () => {
     }
 
     if (json.success) {
+      localStorage.setItem("authToken", json.authtoken);
+      console.log(localStorage.getItem("authToken"))
       navigate("/");
     }
     console.log(json);
