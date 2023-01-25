@@ -24,6 +24,7 @@ export const Login = () => {
     });
 
     const json = await response.json();
+    // console.log("this is json after login", json);
 
     if (!json.success) {
       alert("Enter Valid Credentials");
@@ -31,10 +32,11 @@ export const Login = () => {
 
     if (json.success) {
       localStorage.setItem("authToken", json.authtoken);
-      console.log(localStorage.getItem("authToken"))
+      localStorage.setItem("userEmail", json.email)
+      // console.log(localStorage.getItem("authToken"))
       navigate("/");
     }
-    console.log(json);
+    // console.log(json);
   };
 
   const onChange = (event) => {

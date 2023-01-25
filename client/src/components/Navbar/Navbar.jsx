@@ -13,13 +13,14 @@ export const Nevbar = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("userEmail")
     navigate("/login");
   };
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <Link className="navbar-brand" href="/">
+          <Link className="navbar-brand" to="/">
             FastFood
           </Link>
           <button
@@ -44,7 +45,7 @@ export const Nevbar = () => {
                   </li>
 
                   <li className="nav-item">
-                    <Link to="/" className="nav-item nav-link">
+                    <Link to="/myOrder" className="nav-item nav-link">
                       My Orders
                     </Link>
                   </li>

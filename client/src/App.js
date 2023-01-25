@@ -7,6 +7,7 @@ import { Footer } from "./components/Footer/Footer";
 import { Courses } from "./components/Courses";
 import { Signup } from "./components/Signup/Signup";
 import { CardProvider } from "./ContextReducer/ContextReducer";
+import { MyOrder } from "./components/myOrder/MyOrder";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/courses" element={<Courses />} />
               <Route exact path="/signup" element={<Signup />} />
+              <Route exact path="/myOrder" element={<MyOrder />} />
             </Routes>
           </div>
         </Router>

@@ -4,6 +4,7 @@ const port = 5000
 const mongoDB = require('./db');
 const CreateUser = require("../backend/Routes/CreateUser.js");
 const DisplayData = require("../backend/Routes/DisplayData");
+const OrderData = require("../backend/Routes/OrderData");
 const cors = require('cors')
 
 mongoDB();
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
 app.use(express.json());
 app.use('/api', CreateUser);
 app.use('/api', DisplayData);
+app.use('/api', OrderData);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

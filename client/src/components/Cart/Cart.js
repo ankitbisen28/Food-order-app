@@ -1,6 +1,6 @@
 import React from "react";
 import { useCart, useDispatch } from "../../ContextReducer/ContextReducer";
-import { Trash } from 'react-bootstrap-icons';
+import { Trash } from "react-bootstrap-icons";
 
 export const Cart = () => {
   let data = useCart();
@@ -13,13 +13,52 @@ export const Cart = () => {
       </div>
     );
   }
-
-  const handleCheckOut = () => {};
+// this is new api handler copied github. // https://github.com/arshdeepsingh2267/Gofood/blob/main/src/screens/Cart.js
+  const handleCheckOut = async () => {
+    let userEmail = localStorage.getItem("userEmail");
+    // console.log(data,localStorage.getItem("userEmail"),new Date())
+    let response = await fetch("http://localhost:5000/api/orderData", {
+      // credentials: 'include',
+      // Origin:"http://localhost:3000/login",
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        order_data: data,
+        email: userEmail,
+        order_date: new Date().toDateString()
+      })
+    });
+    // console.log("JSON RESPONSE:::::", response.status)
+    if (response.status === 200) {
+      dispatch({ type: "DROP" })
+    }
+  }
+// This is old api handler
+  // const handleCheckOut = async () => {
+  //   let userEmail = localStorage.getItem("userEmail");
+  //   let response = await fetch("http://localhost:5000/api/orderData", {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       order_data: data,
+  //       email: userEmail,
+  //       order_date: new Date().toDateString(),
+  //     }),
+  //   });
+  //   console.log("this is response ", response.status);
+  //   if (response.status === 200) {
+  //     dispatch({ type: "DROP" });
+  //   }
+  // };
 
   let totalPrice = data.reduce((total, food) => total + food.price, 0);
 
   return (
-    <div style={{backgroundColor: "rgb(206, 203, 203)"}}>
+    <div style={{ backgroundColor: "rgb(206, 203, 203)" }}>
       <div className="container m-auto mt-5 table-responsive  table-responsive-sm table-responsive-md">
         <table className="table table-hover ">
           <thead className=" text-success fs-4">
