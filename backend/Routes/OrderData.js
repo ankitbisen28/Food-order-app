@@ -40,8 +40,6 @@ router.post("/myOrderData", async (req, res) => {
     try {
         let OrderDetail = await Order.findOne({email: req.body.email});
         let order_data = OrderDetail.order_data;
-        console.log(order_data)
-        // let eachItem = order_data.
         res.json({oData : order_data})
     } catch (error) {
         res.send("Error", error.message);

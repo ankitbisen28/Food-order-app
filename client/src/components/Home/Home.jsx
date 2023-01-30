@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Card } from "../Card/Card";
+import heroOne from "../../assets/images/hero-1.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faRocket,
+  faLeaf,
+  faHandsBubbles,
+} from "@fortawesome/free-solid-svg-icons";
 
-export const Home = () => {
+export const Home = ({ search, setSearch }) => {
   const [foodCat, setFoodCat] = useState([]);
   const [foodItem, setFoodItem] = useState([]);
-  const [search, setSearch] = useState("");
 
   let loadData = async () => {
     let response = await fetch("http://localhost:5000/api/foodData", {
@@ -25,119 +31,105 @@ export const Home = () => {
 
   return (
     <div>
-      <div id="carouselExampleCaptions" className="carousel slide">
-        <div className="carousel-indicators">
-          <button
-            type="button"
-            data-bs-target="#carouselExampleCaptions"
-            data-bs-slide-to="0"
-            className="active"
-            aria-current="true"
-            aria-label="Slide 1"
-          ></button>
-          <button
-            type="button"
-            data-bs-target="#carouselExampleCaptions"
-            data-bs-slide-to="1"
-            aria-label="Slide 2"
-          ></button>
-          <button
-            type="button"
-            data-bs-target="#carouselExampleCaptions"
-            data-bs-slide-to="2"
-            aria-label="Slide 3"
-          ></button>
+      <div className="container">
+        <div className="row d-flex align-items-center">
+          <div className="col-lg-6 hero-left">
+            <h1 className="display-4 mb-5">
+              We Love <br />
+              Delicious Foods!
+            </h1>
+            <div className="mb-2">
+              <a
+                className="btn btn-primary btn-shadow btn-lg"
+                href="#food-items"
+                role="button"
+              >
+                Explore Menu
+              </a>
+            </div>
+
+            <ul className="hero-info list-unstyled d-flex text-center mb-0">
+              <li className="border-right">
+                <FontAwesomeIcon icon={faRocket} size="2x" />
+                <h5>Fast Delivery</h5>
+              </li>
+              <li className="border-right">
+                <FontAwesomeIcon icon={faLeaf} size="2x" />
+                <h5>Fresh Food</h5>
+              </li>
+              <li className="">
+                <FontAwesomeIcon icon={faHandsBubbles} size="2x" />
+                <h5>24/7 Support</h5>
+              </li>
+            </ul>
+          </div>
+          <div className="col-lg-6 hero-right">
+            <div className="owl-carousel owl-theme hero-carousel">
+              <div className="item">
+                <img className="img-fluid" src={heroOne} alt="" />
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="carousel-inner" style={{ maxHeight: "500px" }}>
-          <div
-            className="carousel-caption d-none d-md-block"
-            style={{ zIndex: "10" }}
-          >
-            <div className="d-flex justify-content-center" role="search">
+      </div>
+      {localStorage.getItem("authToken") ? (
+        <div className="container">
+          <div className="container my-3">
+            <div className="w-25 mx-2" role="search">
+              <h4>Search Food</h4>
               <input
                 className="form-control me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
                 value={search}
-                onChange={(e)=> setSearch(e.target.value)}
+                onChange={(e) => setSearch(e.target.value)}
               />
             </div>
           </div>
-          <div className="carousel-item active">
-            <img
-              src="https://source.unsplash.com/random/900x900?biryani"
-              className="d-block w-100"
-              alt="..."
-            />
-          </div>
-          <div className="carousel-item">
-            <img
-              src="https://source.unsplash.com/random/900x900?barger"
-              className="d-block w-100"
-              alt="..."
-            />
-          </div>
-          <div className="carousel-item">
-            <img
-              src="https://source.unsplash.com/random/900x900?pizza"
-              className="d-block w-100"
-              alt="..."
-            />
-          </div>
+          {foodCat !== [] ? (
+            foodCat.map((data) => {
+              return (
+                <div className=" mb-3" key={data._id} id="food-items">
+                  <h2 className="my-2"> {data.CategoryName}</h2>
+                  <hr />
+                  <div className="row">
+                    {foodItem !== [] ? (
+                      foodItem
+                        .filter(
+                          (item) =>
+                            item.CategoryName === data.CategoryName &&
+                            item.name
+                              .toLowerCase()
+                              .includes(search.toLocaleLowerCase())
+                        )
+                        .map((filterItem) => {
+                          return (
+                            <div
+                              key={filterItem._id}
+                              className="col-12 col-md-6 col-lg-3 m-3"
+                            >
+                              <Card
+                                foodItem={filterItem}
+                                itemOption={filterItem.options[0]}
+                              />
+                            </div>
+                          );
+                        })
+                    ) : (
+                      <div> No such data found</div>
+                    )}
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div>Nothing is present</div>
+          )}
         </div>
-        <button
-          className="carousel-control-prev"
-          type="button"
-          data-bs-target="#carouselExampleCaptions"
-          data-bs-slide="prev"
-        >
-          <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Previous</span>
-        </button>
-        <button
-          className="carousel-control-next"
-          type="button"
-          data-bs-target="#carouselExampleCaptions"
-          data-bs-slide="next"
-        >
-          <span className="carousel-control-next-icon" aria-hidden="true"></span>
-          <span className="visually-hidden">Next</span>
-        </button>
-      </div>
-      <div className="container">
-        {foodCat !== [] ? (
-          foodCat.map((data) => {
-            return (
-              <div className="row mb-3" key={data._id}>
-                <h2 className="my-2"> {data.CategoryName}</h2>
-                <hr />
-                {foodItem !== [] ? (
-                  foodItem
-                    .filter((item) => (item.CategoryName === data.CategoryName) && (item.name.toLowerCase().includes(search.toLocaleLowerCase())))
-                    .map((filterItem) => {
-                      return (
-                        <div
-                          key={filterItem._id}
-                          className="col-12 col-md-6 col-lg-3 m-3"
-                        >
-                          <Card
-                            foodItem={filterItem}
-                            itemOption={filterItem.options[0]}
-                          />
-                        </div>
-                      );
-                    })
-                ) : (
-                  <div> No such data found</div>
-                )}
-              </div>
-            );
-          })
-        ) : (
-          <div>Nothing is present</div>
-        )}
-      </div>
+      ) : (
+        <h5 className="text-center my-3">Please Login first or Signup</h5>
+      )}
     </div>
   );
 };

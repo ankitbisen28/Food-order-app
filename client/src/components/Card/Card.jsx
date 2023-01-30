@@ -55,7 +55,7 @@ export const Card = ({ foodItem, itemOption }) => {
               bulk of the card's content.
             </p>
             <div className="container w-100">
-              <select className="m-2 h-100 bg-danger rounded" onChange={e => setQty(e.target.value)}>
+              <select className="m-2 h-100 bg-danger text-white border rounded" onChange={e => setQty(e.target.value)}>
                 {Array.from(Array(6), (e, i) => {
                   return (
                     <option key={i + i} value={i + 1}>
@@ -65,7 +65,7 @@ export const Card = ({ foodItem, itemOption }) => {
                   );
                 })}
               </select>
-              <select className="m-2 h-100 bg-danger rounded" ref={priceRef} onChange={e => setSize(e.target.value)}>
+              <select className="m-2 h-100 bg-danger text-white border rounded" ref={priceRef} onChange={e => setSize(e.target.value)}>
                 {priceOptions.map((data) => {
                   return (
                     <option key={data} value={data}>

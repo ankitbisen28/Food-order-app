@@ -1,0 +1,5 @@
+@media (min-width: 300px) { 
+    #SignupComponent {
+        margin-top: 7rem !important;
+    }
+ }

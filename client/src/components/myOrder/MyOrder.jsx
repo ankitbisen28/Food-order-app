@@ -28,7 +28,7 @@ export const MyOrder = () => {
     <>
       {" "}
       <div className="container">
-        <div className="row">
+        <div>
           {orderData?.oData?.length > 0 &&
             orderData.oData
               .slice(0)
@@ -38,7 +38,7 @@ export const MyOrder = () => {
                   return (
                     <div key={index}>
                       {arrayData.Order_date ? (
-                        <div className="m-auto mt-5">
+                        <div className="m-auto mt-5 row">
                           {arrayData.Order_date}
                           <hr />
                         </div>

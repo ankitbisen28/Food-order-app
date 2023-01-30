@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import '../Login/Login.css'
 
-export const Login = () => {
+
+export const Login = ({ loggedIn }) => {
+  
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -34,6 +38,7 @@ export const Login = () => {
       localStorage.setItem("authToken", json.authtoken);
       localStorage.setItem("userEmail", json.email)
       // console.log(localStorage.getItem("authToken"))
+      loggedIn();
       navigate("/");
     }
     // console.log(json);
@@ -45,10 +50,11 @@ export const Login = () => {
 
   return (
     <>
-      <div className="container">
+    <ToastContainer />
+      <div className="container" id="loginComponent">
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">
+            <label htmlFor="exampleInputPassword1" className="form-label my-3">
               Email
             </label>
             <input

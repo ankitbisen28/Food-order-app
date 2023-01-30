@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import '../Signup/Signup.css'
 
 export const Signup = () => {
   const [signupData, setSignupData] = useState({
@@ -39,10 +40,12 @@ export const Signup = () => {
   const onChange = (event) => {
     setSignupData({ ...signupData, [event.target.name]: event.target.value });
   };
+   
+ 
 
   return (
     <>
-      <div className="container">
+      <div className="container my-5" id="SignupComponent">
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">
