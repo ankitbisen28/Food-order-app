@@ -1,12 +1,14 @@
 const express = require('express');
 const app = express()
-const port = 5000
+const PORT = 5000 || process.env.PORT;
 const mongoDB = require('./db');
 const CreateUser = require("../backend/Routes/CreateUser.js");
 const DisplayData = require("../backend/Routes/DisplayData");
 const OrderData = require("../backend/Routes/OrderData");
 const cors = require('cors')
+const dotenv = require('dotenv');
 
+dotenv.config();
 mongoDB();
 app.use(cors());
 
@@ -18,6 +20,6 @@ app.use('/api', CreateUser);
 app.use('/api', DisplayData);
 app.use('/api', OrderData);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`)
 })
