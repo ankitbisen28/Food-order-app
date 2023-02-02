@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const databaseURL =
-  "mongodb://localhost:27017/FoodDeliverApp?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false";
+  "mongodb+srv://ankitbisen28:AnkitBisen%40123@cluster0.8xv1zrv.mongodb.net/?retryWrites=true&w=majority";
 
 const mongoDB = async () => {
   mongoose.set("strictQuery", false);
@@ -10,17 +10,6 @@ const mongoDB = async () => {
       console.log("---", error);
     } else {
       console.log("Database is connected ");
-      const fetched_data = await mongoose.connection.db.collection("FoodItem");
-      fetched_data.find({}).toArray(async function (err, data) {
-        const foodCategory = await mongoose.connection.db.collection("FoodCat");
-        foodCategory.find({}).toArray((err, catData) => {
-          if (err) console.log(err);
-          else {
-            global.food_items = data;
-            global.foodCategory = catData;
-          }
-        });
-      });
     }
   });
 };
