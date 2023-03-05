@@ -13,7 +13,7 @@ export const Home = ({ search, setSearch }) => {
   const [foodItem, setFoodItem] = useState([]);
 
   let loadData = async () => {
-    let response = await fetch("http://localhost:5000/api/foodData", {
+    let response = await fetch("https://food-order-app-wreq.onrender.com/api/foodData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

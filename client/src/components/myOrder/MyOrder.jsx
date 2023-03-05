@@ -6,7 +6,7 @@ export const MyOrder = () => {
 
   const fetchMyOrder = async () => {
     console.log(localStorage.getItem("userEmail"));
-    await fetch("http://localhost:5000/api/myOrderData", {
+    await fetch("https://food-order-app-wreq.onrender.com/api/myOrderData", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
