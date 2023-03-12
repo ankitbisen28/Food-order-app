@@ -10,7 +10,9 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 mongoDB();
-app.use(cors());
+app.use(cors({
+  origin: "https://food-order-app-client.onrender.com"
+}));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
